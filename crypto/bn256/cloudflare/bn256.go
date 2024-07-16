@@ -379,6 +379,22 @@ func (e *GT) Set(a *GT) *GT {
 	return e
 }
 
+// Mul multiplies a and b and then sets e to the result.
+func (e *GT) Mul(a, b *GT) *GT {
+	if e.p == nil {
+		e.p = &gfP12{}
+	}
+	e.p.Mul(a.p, b.p)
+	return e
+}
+
+func GTOne() *GT {
+	p := new(gfP12)
+	gt := GT{p: p}
+	gt.p.SetOne()
+	return &gt
+}
+
 // Finalize is a linear function from F_p^12 to GT.
 func (e *GT) Finalize() *GT {
 	ret := finalExponentiation(e.p)
